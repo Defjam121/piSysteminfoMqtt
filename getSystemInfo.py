@@ -6,11 +6,23 @@
 # Date:              2018-04-28
 # Version:           1.0
 ###
-# Return CPU temperature as a character string                                      
+# Return CPU temperature as a character string  
+
+##------------------------------------------------------------------------
+##    Bib
+##------------------------------------------------------------------------
+import os
+import sys
+
+##------------------------------------------------------------------------
+##    Funktionen
+##------------------------------------------------------------------------
+##-------  TempCPU  --------#
 def getCPUtemperature():
     res = os.popen('vcgencmd measure_temp').readline()
     return(res.replace("temp=","").replace("'C\n",""))
 
+#--------  RAM Info  --------#
 # Return RAM information (unit=kb) in a list                                        
 # Index 0: total RAM                                                                
 # Index 1: used RAM                                                                 
@@ -24,10 +36,12 @@ def getRAMinfo():
         if i==2:
             return(line.split()[1:4])
 
+#--------  CPU Info  --------#
 # Return % of CPU used by user as a character string                                
 def getCPUuse():
     return(str(os.popen("top -n1 | awk '/Cpu\(s\):/ {print $2}'").readline().strip()))
 
+#--------  HDD  --------#
 # Return information about disk space as a list (unit included)                     
 # Index 0: total disk space                                                         
 # Index 1: used disk space                                                          
@@ -42,8 +56,6 @@ def getDiskSpace():
         if i==2:
             return(line.split()[1:5])
 
-system.hdd = getDiskSpace
-system.cpu = getCPUuse
-
-system.hdd
-system.cpu
+##------------------------------------------------------------------------
+##    Main
+##------------------------------------------------------------------------

@@ -9,12 +9,21 @@
 # install Libs
 # pip3 install paho-mqtt
 # sudo pip3 install psutil
+#
+# python3 systemDataToMqtt.py <maschienenname>
+#
+##------------------------------------------------------------------------
+##    Bib
+##------------------------------------------------------------------------
 import paho.mqtt.publish as publish
 from subprocess import check_output
 from re import findall
 import psutil
 import sys
 
+##------------------------------------------------------------------------
+##    Funktionen
+##------------------------------------------------------------------------
 def get_temp():
     temp = check_output(["vcgencmd","measure_temp"]).decode("UTF-8")
     return(findall("\d+\.\d+",temp)[0])
@@ -34,6 +43,9 @@ def publish_message(topic, message):
 
     publish.single(topic, message, hostname="192.168.2.142")
 
+##------------------------------------------------------------------------
+##    Main
+##------------------------------------------------------------------------
 if __name__ == '__main__':
     if len(sys.argv) != 2:
         print("Specify a computer name as argument to " + __file__)
